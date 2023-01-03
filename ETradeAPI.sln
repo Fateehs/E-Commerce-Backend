@@ -5,19 +5,19 @@ VisualStudioVersion = 17.4.33205.214
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{C39E89F9-35C6-4A87-9332-EE78F29C7D23}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ETradeAPI.Domain", "Core\ETradeAPI.Domain\ETradeAPI.Domain.csproj", "{7646E7C4-F163-45F7-B63C-2925B66F9FA5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ETradeAPI.Domain", "Core\ETradeAPI.Domain\ETradeAPI.Domain.csproj", "{7646E7C4-F163-45F7-B63C-2925B66F9FA5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ETradeAPI.Application", "Core\ETradeAPI.Application\ETradeAPI.Application.csproj", "{874EDC96-A9FD-4243-8133-BC8DE420F10A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ETradeAPI.Application", "Core\ETradeAPI.Application\ETradeAPI.Application.csproj", "{874EDC96-A9FD-4243-8133-BC8DE420F10A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{393AC8AD-8640-4E71-83B0-CBEEC49E12BD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ETradeAPI.Infrastructure", "Infrastructure\ETradeAPI.Infrastructure\ETradeAPI.Infrastructure.csproj", "{F9B4572F-F77F-43F5-8C86-465F29EE11CD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ETradeAPI.Infrastructure", "Infrastructure\ETradeAPI.Infrastructure\ETradeAPI.Infrastructure.csproj", "{F9B4572F-F77F-43F5-8C86-465F29EE11CD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ETradeAPI.Persistence", "Infrastructure\ETradeAPI.Persistence\ETradeAPI.Persistence.csproj", "{317EA065-6C3A-471E-BE16-B8B27117F8A3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ETradeAPI.Persistence", "Infrastructure\ETradeAPI.Persistence\ETradeAPI.Persistence.csproj", "{317EA065-6C3A-471E-BE16-B8B27117F8A3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{52D0769F-4FA7-471E-BE09-8014B84838B9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ETradeAPI.API", "Presentation\ETradeAPI.API\ETradeAPI.API.csproj", "{E939CAEF-02A2-4625-90C5-381051CEDBAC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ETradeAPI.API", "Presentation\ETradeAPI.API\ETradeAPI.API.csproj", "{E939CAEF-02A2-4625-90C5-381051CEDBAC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
