@@ -2,6 +2,7 @@
 using ETradeAPI.Persistence.Concretes;
 using ETradeAPI.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -16,7 +17,7 @@ namespace ETradeAPI.Persistence
         public static void AddPersistenceServices(this IServiceCollection services)
         {
             services.AddDbContext<ETradeAPIDbContext>
-                (options => options.UseNpgsql("User ID=postgres;Password=123456;Host=localhost;Port=5432;Database=ETradeAPIDb;"));
+                (options => options.UseNpgsql(Configuration.ConnectionString));
         }
     }
 }
