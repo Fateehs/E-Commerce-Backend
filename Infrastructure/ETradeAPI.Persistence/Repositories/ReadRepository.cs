@@ -1,11 +1,12 @@
-﻿using ETradeAPI.Application.Repositories;
+﻿using ETradeAPI.Application.Repositories.Design;
+using ETradeAPI.Domain.Entities.Common;
 using ETradeAPI.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
 namespace ETradeAPI.Persistence.Repositories
 {
-    public class ReadRepository<T> : IReadRepository<T> where T : class
+    public class ReadRepository<T> : IReadRepository<T> where T : BaseEntity
     {
         private readonly ETradeAPIDbContext _context;
 
@@ -16,18 +17,16 @@ namespace ETradeAPI.Persistence.Repositories
 
         public DbSet<T> Table => _context.Set<T>();
 
-        public IQueryable<T> GetAll() 
+        public IQueryable<T> GetAll()
             => Table;
 
-        public IQueryable<T> GetWhere(Expression<Func<T, bool>> expression) 
+        public IQueryable<T> GetWhere(Expression<Func<T, bool>> expression)
             => Table.Where(expression);
 
-        public async Task<T> GetSingleAsync(Expression<Func<T, bool>> expression) 
+        public async Task<T> GetSingleAsync(Expression<Func<T, bool>> expression)
             => await Table.FirstOrDefaultAsync(expression);
 
-        public Task<T> GetByIdAsync(string id)
-        {
-            throw new NotImplementedException();
-        }
+        public async Task<T> GetByIdAsync(string id)
+        => await Table.FirstOrDefaultAsync(data => data.Id == Guid.Parse(id));
     }
 }
