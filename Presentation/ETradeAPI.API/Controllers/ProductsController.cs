@@ -1,4 +1,5 @@
 ﻿using ETradeAPI.Application.Repositories;
+using ETradeAPI.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ETradeAPI.API.Controllers
@@ -10,22 +11,25 @@ namespace ETradeAPI.API.Controllers
         private readonly IProductWriteRepository _productWriteRepository;
         private readonly IProductReadRepository _productReadRepository;
 
-        public ProductsController(IProductWriteRepository productWriteRepository, IProductReadRepository productReadRepository)
+        private readonly IOrderWriteRepository _orderWriteRepository;
+        private readonly ICustomerWriteRepository _customerWriteRepository;
+        private readonly IOrderReadRepository _orderReadRepository;
+
+        public ProductsController(IProductWriteRepository productWriteRepository, IProductReadRepository productReadRepository, IOrderWriteRepository orderWriteRepository, ICustomerWriteRepository customerWriteRepository, IOrderReadRepository orderReadRepository)
         {
             _productWriteRepository = productWriteRepository;
             _productReadRepository = productReadRepository;
+            _orderWriteRepository = orderWriteRepository;
+            _customerWriteRepository = customerWriteRepository;
+            _orderReadRepository = orderReadRepository;
         }
 
         [HttpGet]
-        public async void Get()
+        public async Task Get()
         {
-            _productWriteRepository.AddRangeAsync(new()
-            {
-                new() {Id = Guid.NewGuid(), Name = "Product 1", Price =100 , CreatedDate= DateTime.UtcNow , Stock = 10},
-                new() {Id = Guid.NewGuid(), Name = "Product 2", Price =102 , CreatedDate= DateTime.UtcNow , Stock = 23},
-                new() {Id = Guid.NewGuid(), Name = "Product 3", Price =232 , CreatedDate= DateTime.UtcNow , Stock = 22}
-            });
-            await _productWriteRepository.SaveAsync();
+            Order order = await _orderReadRepository.GetByIdAsync("2a30a1c3-d408-489b-85dc-19dd44dc51ee");
+            order.Address = "istanbl";
+            await _orderWriteRepository.SaveAsync();
         }
     }
 }
