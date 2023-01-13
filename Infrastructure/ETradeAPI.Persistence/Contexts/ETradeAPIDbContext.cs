@@ -1,11 +1,6 @@
 ﻿using ETradeAPI.Domain.Entities;
 using ETradeAPI.Domain.Entities.Common;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ETradeAPI.Persistence.Contexts
 {
