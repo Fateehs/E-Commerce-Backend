@@ -29,12 +29,16 @@ namespace ETradeAPI.API.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(string id)
         {
-            return Ok(_productReadRepository.GetByIdAsync(id,false));
+            return Ok(_productReadRepository.GetByIdAsync(id, false));
         }
 
         [HttpPost]
         public async Task<IActionResult> Post(VM_Create_Product model)
         {
+            if (ModelState.IsValid)
+            {
+
+            }
             await _productWriteRepository.AddAsync(new()
             {
                 Name = model.Name,
