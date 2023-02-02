@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Core\ETradeAPI.Application\ETradeAPI.Application.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\ETradeAPI.Infrastructure\ETradeAPI.Infrastructure.csproj" />
     <ProjectReference Include="..\..\Infrastructure\ETradeAPI.Persistence\ETradeAPI.Persistence.csproj" />
   </ItemGroup>
 
