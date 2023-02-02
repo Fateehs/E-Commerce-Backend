@@ -1,4 +1,5 @@
 ﻿using ETradeAPI.Application.Repositories;
+using ETradeAPI.Application.RequestParameters;
 using ETradeAPI.Application.ViewModels.Products;
 using ETradeAPI.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
@@ -21,9 +22,19 @@ namespace ETradeAPI.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> Get([FromQuery] Pagination pagination)
         {
-            return Ok(_productReadRepository.GetAll(false));
+            _productReadRepository.GetAll(false).Select(p => new
+            {
+                p.Id,
+                p.Name,
+                p.Stock,
+                p.Price,
+                p.CreatedDate,
+                p.UpdatedDate
+            }).Take(pagination.Page * pagination.Size).Skip(pagination.Size);
+
+            return Ok();
         }
 
         [HttpGet("{id}")]
@@ -35,10 +46,6 @@ namespace ETradeAPI.API.Controllers
         [HttpPost]
         public async Task<IActionResult> Post(VM_Create_Product model)
         {
-            if (ModelState.IsValid)
-            {
-
-            }
             await _productWriteRepository.AddAsync(new()
             {
                 Name = model.Name,
