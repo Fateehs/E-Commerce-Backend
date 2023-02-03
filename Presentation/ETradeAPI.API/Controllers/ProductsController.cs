@@ -24,7 +24,8 @@ namespace ETradeAPI.API.Controllers
         [HttpGet]
         public async Task<IActionResult> Get([FromQuery] Pagination pagination)
         {
-            _productReadRepository.GetAll(false).Select(p => new
+            var totalCount = _productReadRepository.GetAll(false).Count();
+            var products = _productReadRepository.GetAll(false).Skip(pagination.Page * pagination.Size).Take(pagination.Size).Select(p => new
             {
                 p.Id,
                 p.Name,
@@ -32,9 +33,13 @@ namespace ETradeAPI.API.Controllers
                 p.Price,
                 p.CreatedDate,
                 p.UpdatedDate
-            }).Take(pagination.Page * pagination.Size).Skip(pagination.Size);
+            }).ToList();
 
-            return Ok();
+            return Ok(new
+            {
+                totalCount,
+                products
+            });
         }
 
         [HttpGet("{id}")]
