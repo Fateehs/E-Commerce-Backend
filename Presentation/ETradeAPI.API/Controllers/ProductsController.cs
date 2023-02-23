@@ -1,4 +1,5 @@
-﻿using ETradeAPI.Application.Repositories;
+﻿using ETradeAPI.Application.Abstractions.Storage;
+using ETradeAPI.Application.Repositories;
 using ETradeAPI.Application.RequestParameters;
 using ETradeAPI.Application.Services;
 using ETradeAPI.Application.ViewModels.Products;
@@ -15,19 +16,19 @@ namespace ETradeAPI.API.Controllers
         private readonly IProductWriteRepository _productWriteRepository;
         private readonly IProductReadRepository _productReadRepository;
         private readonly IWebHostEnvironment _webHostEnvironment;
-        readonly IFileService _fileService;
+        private readonly IStorageService _storageService;
 
 
         public ProductsController(
             IProductWriteRepository productWriteRepository,
             IProductReadRepository productReadRepository,
-            IWebHostEnvironment webHostEnvironment,
-            IFileService fileService)
+            IWebHostEnvironment webHostEnvironment
+            )
         {
             _productWriteRepository = productWriteRepository;
             _productReadRepository = productReadRepository;
             _webHostEnvironment = webHostEnvironment;
-            _fileService = fileService;
+            
         }
 
         [HttpGet]
@@ -98,8 +99,6 @@ namespace ETradeAPI.API.Controllers
         [HttpPost("[action]")]
         public async Task<IActionResult> Upload()
         {
-            await _fileService.UploadAsync("resource/product-images", Request.Form.Files);
-
             return Ok();
         }
     }
