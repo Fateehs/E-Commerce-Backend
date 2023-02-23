@@ -1,21 +1,38 @@
-﻿using ETradeAPI.Application.Repositories;
-using ETradeAPI.Application.Services;
-using ETradeAPI.Infrastructure.Services;
-using ETradeAPI.Persistence.Contexts;
+﻿using ETradeAPI.Application.Abstractions;
+using ETradeAPI.Application.Abstractions.Storage;
+using ETradeAPI.Infrastructure.Enums;
+using ETradeAPI.Infrastructure.Services.Storage;
+using ETradeAPI.Infrastructure.Services.Storage.Local;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace ETradeAPI.Infrastructure
 {
     public static class ServiceRegistration
     {
         public static void AddInfrastructureServices(this IServiceCollection services)
         {
-            services.AddScoped<IFileService, FileService>();
+            services.AddScoped<IStorageService, StorageService>();
+        }
+
+        public static void AddStorage<T>(this IServiceCollection serviceCollection) where T : class, IStorage
+        {
+            serviceCollection.AddScoped<IStorage, T>();
+        }
+
+        public static void AddStorage(this IServiceCollection serviceCollection, StorageType storageType)
+        {
+            switch (storageType)
+            {
+                case StorageType.Local:
+                    serviceCollection.AddScoped<IStorage, LocalStorage>();
+                    break;
+                case StorageType.Azure:
+                    break;
+                case StorageType.AWS:
+                    break;
+                default:
+                    serviceCollection.AddScoped<IStorage, LocalStorage>();
+                    break;
+            }
         }
     }
 }
