@@ -1,5 +1,4 @@
 ﻿using ETradeAPI.Application.Abstractions;
-using ETradeAPI.Application.Abstractions.Storage;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
@@ -18,6 +17,8 @@ namespace ETradeAPI.Infrastructure.Services.Storage
             _storage = storage;
         }
 
+        public string StorageName { get => _storage.GetType().Name; }
+
         public async Task DeleteAsync(string pathOrContainerName, string fileName)
             => await _storage.DeleteAsync(pathOrContainerName, fileName);
 
@@ -25,9 +26,9 @@ namespace ETradeAPI.Infrastructure.Services.Storage
             => _storage.GetFiles(pathOrContainerName);
 
         public bool HasFile(string pathOrContainerName, string fileName)
-            => _storage.HasFile(pathOrContainerName,fileName);
+            => _storage.HasFile(pathOrContainerName, fileName);
 
-        public Task<List<(string fileName, string path)>> UploadAsync(string pathOrContainerName, IFormFileCollection files)
+        public Task<List<(string fileName, string pathOrContainerName)>> UploadAsync(string pathOrContainerName, IFormFileCollection files)
             => _storage.UploadAsync(pathOrContainerName, files);
     }
 }
