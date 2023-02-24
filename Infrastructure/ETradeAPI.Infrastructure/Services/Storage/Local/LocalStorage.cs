@@ -47,7 +47,7 @@ namespace ETradeAPI.Infrastructure.Services.Storage.Local
             }
         }
 
-        public async Task<List<(string fileName, string path)>> UploadAsync(string path, IFormFileCollection files)
+        public async Task<List<(string fileName, string pathOrContainerName)>> UploadAsync(string path, IFormFileCollection files)
         {
             string uploadPath = Path.Combine(_webHostEnvironment.WebRootPath, path);
 
@@ -64,7 +64,7 @@ namespace ETradeAPI.Infrastructure.Services.Storage.Local
                 datas.Add((file.FileName, Path.Combine(uploadPath, file.FileName)));
             }
 
-            return null;
+            return datas;
         }
     }
 }
