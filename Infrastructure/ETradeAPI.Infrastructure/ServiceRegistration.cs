@@ -1,5 +1,4 @@
 ﻿using ETradeAPI.Application.Abstractions;
-using ETradeAPI.Application.Abstractions.Storage;
 using ETradeAPI.Infrastructure.Enums;
 using ETradeAPI.Infrastructure.Services.Storage;
 using ETradeAPI.Infrastructure.Services.Storage.Local;
