@@ -1,6 +1,10 @@
 ﻿using ETradeAPI.Application.Repositories;
+using ETradeAPI.Application.Repositories.File;
 using ETradeAPI.Persistence.Contexts;
 using ETradeAPI.Persistence.Repositories;
+using ETradeAPI.Persistence.Repositories.File;
+using ETradeAPI.Persistence.Repositories.InvoiceFile;
+using ETradeAPI.Persistence.Repositories.ProductImageFile;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -17,6 +21,12 @@ namespace ETradeAPI.Persistence
             services.AddScoped<IOrderWriteRepository, OrderWriteRepository>();
             services.AddScoped<IProductReadRepository, ProductReadRepository>();
             services.AddScoped<IProductWriteRepository, ProductWriteRepository>();
+            services.AddScoped<IFileReadRepository, FileReadRepository>();
+            services.AddScoped<IFileWriteRepository, FileWriteRepository>();
+            services.AddScoped<IProductImageFileReadRepository, ProductImageFileReadRepository>();
+            services.AddScoped<IProductImageFileWriteRepository, ProductImageFileWriteRepository>();
+            services.AddScoped<IInvoiceFileReadRepository, InvoiceFileReadRepository>();
+            services.AddScoped<IInvoiceFileWriteRepository, InvoiceFileWriteRepository>();
         }
     }
 }
