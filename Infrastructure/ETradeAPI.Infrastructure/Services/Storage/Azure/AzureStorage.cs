@@ -6,8 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 
 namespace ETradeAPI.Infrastructure.Services.Storage.Azure
-{
-    public class AzureStorage : IAzureStorage
+    public class AzureStorage : Storage, IAzureStorage
     {
         readonly BlobServiceClient _blobServiceClient;
         BlobContainerClient _blobContainerClient;
@@ -26,12 +25,14 @@ namespace ETradeAPI.Infrastructure.Services.Storage.Azure
 
         public List<string> GetFiles(string containerName)
         {
-            throw new NotImplementedException();
+            _blobContainerClient = _blobServiceClient.GetBlobContainerClient(containerName);
+            return _blobContainerClient.GetBlobs().Select(x => x.Name).ToList();
         }
 
         public bool HasFile(string containerName, string fileName)
         {
-            throw new NotImplementedException();
+            _blobContainerClient = _blobServiceClient.GetBlobContainerClient(containerName);
+            return _blobContainerClient.GetBlobs().Any(x => x.Name == fileName);
         }
 
         public async Task<List<(string fileName, string pathOrContainerName)>> UploadAsync(string containerName, IFormFileCollection files)
@@ -43,9 +44,11 @@ namespace ETradeAPI.Infrastructure.Services.Storage.Azure
             List<(string fileName, string pathOrContainerName)> datas = new();
             foreach (IFormFile file in files)
             {
-                BlobClient blobClient = _blobContainerClient.GetBlobClient(file.Name);
+                string fileNewName = await FileRenameAsync(containerName, file.Name, HasFile);
+
+                BlobClient blobClient = _blobContainerClient.GetBlobClient(fileNewName);
                 await blobClient.UploadAsync(file.OpenReadStream());
-                datas.Add((file.Name, containerName));
+                datas.Add((file.Name, $"{containerName}/{fileNewName}"));
             }
             return datas;
         }

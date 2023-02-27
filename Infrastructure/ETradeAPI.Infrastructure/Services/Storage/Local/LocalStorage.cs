@@ -1,16 +1,10 @@
 ﻿using ETradeAPI.Application.Abstractions.Storage.Local;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ETradeAPI.Infrastructure.Services.Storage.Local
 {
-    public class LocalStorage : ILocalStorage
+    public class LocalStorage : Storage, ILocalStorage
     {
         readonly IWebHostEnvironment _webHostEnvironment;
         public LocalStorage(IWebHostEnvironment webHostEnvironment)
@@ -20,7 +14,7 @@ namespace ETradeAPI.Infrastructure.Services.Storage.Local
 
         public async Task DeleteAsync(string path, string fileName)
             => File.Delete($"{path}\\{fileName}");
-      
+
 
         public List<string> GetFiles(string path)
         {
@@ -59,9 +53,10 @@ namespace ETradeAPI.Infrastructure.Services.Storage.Local
 
             foreach (IFormFile file in files)
             {
-                bool result = await CopyFileAsync(Path.Combine(uploadPath, file.FileName), file);
+                string fileNewName = await FileRenameAsync(path, file.Name, HasFile);
 
-                datas.Add((file.FileName, Path.Combine(uploadPath, file.FileName)));
+                bool result = await CopyFileAsync(Path.Combine(uploadPath, fileNewName), file);
+                datas.Add((file.FileName, Path.Combine(uploadPath, fileNewName)));
             }
 
             return datas;
