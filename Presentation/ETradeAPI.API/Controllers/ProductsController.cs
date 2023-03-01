@@ -1,9 +1,8 @@
 ﻿using ETradeAPI.Application.Abstractions;
-using ETradeAPI.Application.Features.Commands.CreateProduct;
-using ETradeAPI.Application.Features.Queries.GetAllProduct;
+using ETradeAPI.Application.Features.Commands.Product.CreateProduct;
+using ETradeAPI.Application.Features.Queries.Product.GetAllProduct;
 using ETradeAPI.Application.Repositories;
 using ETradeAPI.Application.Repositories.File;
-using ETradeAPI.Application.RequestParameters;
 using ETradeAPI.Application.ViewModels.Products;
 using ETradeAPI.Domain.Entities;
 using MediatR;
