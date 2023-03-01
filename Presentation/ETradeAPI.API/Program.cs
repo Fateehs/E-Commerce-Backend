@@ -1,3 +1,4 @@
+using ETradeAPI.Application;
 using ETradeAPI.Application.Validators.Products;
 using ETradeAPI.Infrastructure;
 using ETradeAPI.Infrastructure.Filters;
@@ -10,8 +11,11 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddPersistenceServices();
 builder.Services.AddInfrastructureServices();
+builder.Services.AddApplicationServices();
+
 //builder.Services.AddStorage<LocalStorage>();
 builder.Services.AddStorage<AzureStorage>();
+
 builder.Services.AddCors(options => options.AddDefaultPolicy(policy =>
 policy.WithOrigins("http://localhost:4200", "https://localhost:4200").AllowAnyHeader().AllowAnyMethod()
 ));
