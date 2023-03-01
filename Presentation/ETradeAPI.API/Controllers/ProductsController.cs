@@ -1,9 +1,12 @@
 ﻿using ETradeAPI.Application.Abstractions;
+using ETradeAPI.Application.Features.Commands.CreateProduct;
+using ETradeAPI.Application.Features.Queries.GetAllProduct;
 using ETradeAPI.Application.Repositories;
 using ETradeAPI.Application.Repositories.File;
 using ETradeAPI.Application.RequestParameters;
 using ETradeAPI.Application.ViewModels.Products;
 using ETradeAPI.Domain.Entities;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
@@ -26,6 +29,8 @@ namespace ETradeAPI.API.Controllers
         readonly IInvoiceFileReadRepository _invoiceFileReadRepository;
         readonly IConfiguration _configuration;
 
+        readonly IMediator _mediator;
+
         public ProductsController(IProductWriteRepository productWriteRepository,
             IProductReadRepository productReadRepository,
             IWebHostEnvironment webHostEnvironment,
@@ -36,7 +41,8 @@ namespace ETradeAPI.API.Controllers
             IProductImageFileReadRepository productImageFileReadRepository,
             IInvoiceFileWriteRepository invoiceFileWriteRepository,
             IInvoiceFileReadRepository invoiceFileReadRepository,
-            IConfiguration configuration
+            IConfiguration configuration,
+            IMediator mediator
             )
         {
             _configuration = configuration;
@@ -50,27 +56,15 @@ namespace ETradeAPI.API.Controllers
             _productImageFileReadRepository = productImageFileReadRepository;
             _invoiceFileWriteRepository = invoiceFileWriteRepository;
             _invoiceFileReadRepository = invoiceFileReadRepository;
+            _mediator = mediator;
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get([FromQuery] Pagination pagination)
+        public async Task<IActionResult> Get([FromQuery] GetAllProductQueryRequest getAllProductQueryRequest)
         {
-            var totalCount = _productReadRepository.GetAll(false).Count();
-            var products = _productReadRepository.GetAll(false).Skip(pagination.Page * pagination.Size).Take(pagination.Size).Select(p => new
-            {
-                p.Id,
-                p.Name,
-                p.Stock,
-                p.Price,
-                p.CreatedDate,
-                p.UpdatedDate
-            }).ToList();
+            GetAllProductQueryResponse response = await _mediator.Send(getAllProductQueryRequest);
 
-            return Ok(new
-            {
-                totalCount,
-                products
-            });
+            return Ok(response);
         }
 
         [HttpGet("{id}")]
@@ -80,15 +74,10 @@ namespace ETradeAPI.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(VM_Create_Product model)
+        public async Task<IActionResult> Post(CreateProductCommandRequest createProductCommandRequest)
         {
-            await _productWriteRepository.AddAsync(new()
-            {
-                Name = model.Name,
-                Stock = model.Stock,
-                Price = model.Price,
-            });
-            await _productWriteRepository.SaveAsync();
+            CreateProductCommandResponse response = await _mediator.Send(createProductCommandRequest);
+
             return Ok((int)HttpStatusCode.Created);
         }
 
