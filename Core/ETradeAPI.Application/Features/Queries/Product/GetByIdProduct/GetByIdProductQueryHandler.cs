@@ -1,5 +1,6 @@
 ﻿using ETradeAPI.Application.Repositories;
 using MediatR;
+using P = ETradeAPI.Domain.Entities;
 
 namespace ETradeAPI.Application.Features.Queries.Product.GetByIdProduct
 {
@@ -14,7 +15,13 @@ namespace ETradeAPI.Application.Features.Queries.Product.GetByIdProduct
 
         public async Task<GetByIdProductQueryResponse> Handle(GetByIdProductQueryRequest request, CancellationToken cancellationToken)
         {
-            return null;
+            P.Product product = await _productReadRepository.GetByIdAsync(request.Id, false);
+
+            return new() { 
+                Name = product.Name,
+                Price = product.Price,
+                Stock = product.Stock
+            };
         }
     }
 }
