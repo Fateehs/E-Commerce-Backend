@@ -1,5 +1,6 @@
 ﻿using ETradeAPI.Application.Repositories;
 using ETradeAPI.Application.Repositories.File;
+using ETradeAPI.Domain.Entities.Identity;
 using ETradeAPI.Persistence.Contexts;
 using ETradeAPI.Persistence.Repositories;
 using ETradeAPI.Persistence.Repositories.File;
@@ -15,6 +16,7 @@ namespace ETradeAPI.Persistence
         public static void AddPersistenceServices(this IServiceCollection services)
         {
             services.AddDbContext<ETradeAPIDbContext>(options => options.UseNpgsql(Configuration.ConnectionString));
+            services.AddIdentity<AppUser, AppRole>().AddEntityFrameworkStores<ETradeAPIDbContext>();
             services.AddScoped<ICustomerReadRepository, CustomerReadRepository>();
             services.AddScoped<ICustomerWriteRepository, CustomerWriteRepository>();
             services.AddScoped<IOrderReadRepository, OrderReadRepository>();
