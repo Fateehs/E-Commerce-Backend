@@ -15,21 +15,35 @@ namespace ETradeAPI.Application.Features.Commands.AppUser.CreateUser
 
         public async Task<CreateUserCommandResponse> Handle(CreateUserCommandRequest request, CancellationToken cancellationToken)
         {
-            IdentityResult identityResult = await _userManager.CreateAsync(new()
+            IdentityResult result = await _userManager.CreateAsync(new()
             {
+                Id = Guid.NewGuid().ToString(),
                 UserName = request.Username,
                 Email = request.Email,
                 NameSurname = request.NameSurname,
             }, request.Password);
 
-            if (identityResult.Succeeded)
-                return new()
-                {
-                    Succeeded = true,
-                    Message = "User created successfully."
-                };
-            throw new UserCreateFailedException();
+            CreateUserCommandResponse response = new() { Succeeded = result.Succeeded };
 
+            if (result.Succeeded)
+                response.Message = "User created successfully.";
+            else
+                foreach (var error in result.Errors)
+                    response.Message += $"{error.Code} - {error.Description}\n";
+
+            return response;
+
+            //if (identityResult.Succeeded)
+            //    return new()
+            //    {
+            //        Succeeded = true,
+            //        Message = "User created successfully."
+            //    };
+            //else
+            //    return new()
+            //    {
+            //        Succeeded = false,
+            //    };
         }
     }
 }
