@@ -1,4 +1,4 @@
-﻿using ETradeAPI.Application.Abstractions;
+﻿using ETradeAPI.Application.Abstractions.Storage;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
