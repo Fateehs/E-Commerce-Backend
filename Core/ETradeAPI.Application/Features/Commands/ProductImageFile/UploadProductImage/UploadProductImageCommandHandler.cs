@@ -1,4 +1,4 @@
-﻿using ETradeAPI.Application.Abstractions;
+﻿using ETradeAPI.Application.Abstractions.Storage;
 using ETradeAPI.Application.Features.Commands.ProductImage.UploadProductImage;
 using ETradeAPI.Application.Repositories;
 using MediatR;
