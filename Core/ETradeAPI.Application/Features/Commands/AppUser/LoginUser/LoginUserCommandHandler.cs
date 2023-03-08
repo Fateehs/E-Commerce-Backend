@@ -1,4 +1,5 @@
 ﻿using ETradeAPI.Application.Abstractions.Token;
+using ETradeAPI.Application.DTOs;
 using ETradeAPI.Application.Exceptions;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
@@ -28,14 +29,21 @@ namespace ETradeAPI.Application.Features.Commands.AppUser.LoginUser
 
             if (user == null)
                 throw new NotFoundUserException();
-           SignInResult result = await _signInManager.CheckPasswordSignInAsync(user, request.Password, false);
+            SignInResult result = await _signInManager.CheckPasswordSignInAsync(user, request.Password, false);
 
-            if(result.Succeeded) // Authentication...
+            if (result.Succeeded)
             {
-                //Authorization...
+                Token token = _tokenHandler.CreateAccessToken(60);
+                return new LoginUserSuccessCommandResponse()
+                {
+                    Token = token
+                };
             }
-
-            return null;
+            //return new LoginUserErrorCommandResponse()
+            //{
+            //    Message = "Username or password is wrong"
+            //};
+            throw new AuthenticationErrorException();
         }
     }
 }
