@@ -1,5 +1,4 @@
-﻿using ETradeAPI.Application.Abstractions;
-using ETradeAPI.Application.Features.Commands.Product.CreateProduct;
+﻿using ETradeAPI.Application.Features.Commands.Product.CreateProduct;
 using ETradeAPI.Application.Features.Commands.Product.DeleteProduct;
 using ETradeAPI.Application.Features.Commands.Product.UpdateProduct;
 using ETradeAPI.Application.Features.Commands.ProductImage.UploadProductImage;
@@ -8,19 +7,16 @@ using ETradeAPI.Application.Features.Commands.ProductImageFile.UploadProductImag
 using ETradeAPI.Application.Features.Queries.Product.GetAllProduct;
 using ETradeAPI.Application.Features.Queries.Product.GetByIdProduct;
 using ETradeAPI.Application.Features.Queries.ProductImageFile.GetProductImages;
-using ETradeAPI.Application.Repositories;
-using ETradeAPI.Application.Repositories.File;
-using ETradeAPI.Application.ViewModels.Products;
-using ETradeAPI.Domain.Entities;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System.Net;
 
 namespace ETradeAPI.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(AuthenticationSchemes = "Admin")]
     public class ProductsController : ControllerBase
     {
         readonly IMediator _mediator;
