@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Cryptography;
 using System.Text;
 
 namespace ETradeAPI.Infrastructure.Services.Token
@@ -36,7 +37,18 @@ namespace ETradeAPI.Infrastructure.Services.Token
             JwtSecurityTokenHandler jwtSecurityTokenHandler = new();
             token.AccessToken = jwtSecurityTokenHandler.WriteToken(jwtSecurityToken);
 
+            //string refreshToken = CreateRefreshToken();
+            token.RefreshToken = CreateRefreshToken();
+
             return token;
+        }
+
+        public string CreateRefreshToken()
+        {
+            byte[] number = new byte[32];
+            using RandomNumberGenerator random = RandomNumberGenerator.Create();
+            random.GetBytes(number);
+            return Convert.ToBase64String(number);
         }
     }
 }
