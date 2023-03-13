@@ -1,5 +1,6 @@
 ﻿using ETradeAPI.Application.Abstractions.Services;
 using ETradeAPI.Application.DTOs.User;
+using ETradeAPI.Application.Exceptions;
 using ETradeAPI.Application.Features.Commands.AppUser.CreateUser;
 using ETradeAPI.Domain.Entities.Identity;
 using MediatR;
@@ -35,6 +36,19 @@ namespace ETradeAPI.Persistence.Services
                     response.Message += $"{error.Code} - {error.Description}\n";
 
             return response;
+        }
+
+        public async Task UpdateRefreshToken(string refreshToken, string userId, DateTime accessTokenDate, int refreshTokenLifeTime)
+        {
+            AppUser user = await _userManager.FindByIdAsync(userId);
+
+            if(user != null)
+            {
+                user.RefreshToken = refreshToken;
+                user.RefreshTokenEndDate = accessTokenDate.AddMinutes(refreshTokenLifeTime);
+                await _userManager.UpdateAsync(user);
+            }
+            throw new NotFoundUserException();
         }
     }
 }
