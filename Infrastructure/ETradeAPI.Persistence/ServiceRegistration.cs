@@ -1,4 +1,6 @@
-﻿using ETradeAPI.Application.Repositories;
+﻿using ETradeAPI.Application.Abstractions.Services;
+using ETradeAPI.Application.Abstractions.Services.Authentications;
+using ETradeAPI.Application.Repositories;
 using ETradeAPI.Application.Repositories.File;
 using ETradeAPI.Domain.Entities.Identity;
 using ETradeAPI.Persistence.Contexts;
@@ -6,6 +8,7 @@ using ETradeAPI.Persistence.Repositories;
 using ETradeAPI.Persistence.Repositories.File;
 using ETradeAPI.Persistence.Repositories.InvoiceFile;
 using ETradeAPI.Persistence.Repositories.ProductImageFile;
+using ETradeAPI.Persistence.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -38,6 +41,11 @@ namespace ETradeAPI.Persistence
             services.AddScoped<IProductImageFileWriteRepository, ProductImageFileWriteRepository>();
             services.AddScoped<IInvoiceFileReadRepository, InvoiceFileReadRepository>();
             services.AddScoped<IInvoiceFileWriteRepository, InvoiceFileWriteRepository>();
+
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IAuthService, AuthService>();
+            services.AddScoped<IExternalAuthentication, AuthService>();
+            services.AddScoped<IInternalAuthentication, AuthService>();
         }
     }
 }
