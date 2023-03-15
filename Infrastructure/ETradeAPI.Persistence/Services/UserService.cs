@@ -38,17 +38,16 @@ namespace ETradeAPI.Persistence.Services
             return response;
         }
 
-        public async Task UpdateRefreshToken(string refreshToken, string userId, DateTime accessTokenDate, int refreshTokenLifeTime)
+        public async Task UpdateRefreshToken(string refreshToken, AppUser user, DateTime accessTokenDate, int refreshTokenLifeTime)
         {
-            AppUser user = await _userManager.FindByIdAsync(userId);
-
-            if(user != null)
+            if (user != null)
             {
                 user.RefreshToken = refreshToken;
-                user.RefreshTokenEndDate = accessTokenDate.AddMinutes(refreshTokenLifeTime);
+                user.RefreshTokenEndDate = accessTokenDate.AddSeconds(refreshTokenLifeTime);
                 await _userManager.UpdateAsync(user);
             }
-            throw new NotFoundUserException();
+            else
+                throw new NotFoundUserException();
         }
     }
 }
