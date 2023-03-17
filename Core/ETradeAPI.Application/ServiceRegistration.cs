@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.VisualBasic;
 
 namespace ETradeAPI.Application
 {
@@ -8,6 +9,7 @@ namespace ETradeAPI.Application
         public static void AddApplicationServices(this IServiceCollection services) 
         {
             services.AddMediatR(typeof(ServiceRegistration));
+            services.AddHttpClient();
         }
     }
 }
