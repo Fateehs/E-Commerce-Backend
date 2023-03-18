@@ -23,9 +23,11 @@
     <ProjectReference Include="..\..\Core\ETradeAPI.Application\ETradeAPI.Application.csproj" />
     <ProjectReference Include="..\..\Infrastructure\ETradeAPI.Infrastructure\ETradeAPI.Infrastructure.csproj" />
     <ProjectReference Include="..\..\Infrastructure\ETradeAPI.Persistence\ETradeAPI.Persistence.csproj" />
+    <ProjectReference Include="..\..\Infrastructure\ETradeAPI.SignalR\ETradeAPI.SignalR.csproj" />
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Middlewares\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 
