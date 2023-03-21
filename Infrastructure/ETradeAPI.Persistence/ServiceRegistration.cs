@@ -1,6 +1,7 @@
 ﻿using ETradeAPI.Application.Abstractions.Services;
 using ETradeAPI.Application.Abstractions.Services.Authentications;
 using ETradeAPI.Application.Repositories;
+using ETradeAPI.Application.Repositories.BasketItem;
 using ETradeAPI.Application.Repositories.File;
 using ETradeAPI.Domain.Entities.Identity;
 using ETradeAPI.Persistence.Contexts;
@@ -41,6 +42,10 @@ namespace ETradeAPI.Persistence
             services.AddScoped<IProductImageFileWriteRepository, ProductImageFileWriteRepository>();
             services.AddScoped<IInvoiceFileReadRepository, InvoiceFileReadRepository>();
             services.AddScoped<IInvoiceFileWriteRepository, InvoiceFileWriteRepository>();
+            services.AddScoped<IBasketItemReadRepository, BasketItemReadRepository>();
+            services.AddScoped<IBasketItemWriteRepository, BasketItemWriteRepository>();
+            services.AddScoped<IBasketReadRepository, BasketReadRepository>();
+            services.AddScoped<IBasketWriteRepository, BasketWriteRepository>();
 
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IAuthService, AuthService>();
