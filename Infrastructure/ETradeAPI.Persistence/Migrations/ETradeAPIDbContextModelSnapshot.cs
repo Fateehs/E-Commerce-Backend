@@ -35,7 +35,6 @@ namespace ETradeAPI.Persistence.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("UserId")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
@@ -446,9 +445,7 @@ namespace ETradeAPI.Persistence.Migrations
                 {
                     b.HasOne("ETradeAPI.Domain.Entities.Identity.AppUser", "User")
                         .WithMany("Baskets")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
 
                     b.Navigation("User");
                 });
