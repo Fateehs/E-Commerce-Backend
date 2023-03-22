@@ -7,10 +7,8 @@ using ETradeAPI.Infrastructure.Filters;
 using ETradeAPI.Infrastructure.Services.Storage.Azure;
 using ETradeAPI.Persistence;
 using ETradeAPI.SignalR;
-using ETradeAPI.SignalR.Hubs;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
 using Serilog.Context;
@@ -20,6 +18,8 @@ using System.Security.Claims;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddPersistenceServices();
 builder.Services.AddInfrastructureServices();
