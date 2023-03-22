@@ -22,12 +22,12 @@ namespace ETradeAPI.Persistence.Contexts
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<Order>()
-                .HasKey(k => k.Id);
+                .HasKey(b => b.Id);
 
             builder.Entity<Basket>()
-                .HasOne(k => k.Order)
+                .HasOne(b => b.Order)
                 .WithOne(o => o.Basket)
-                .HasForeignKey<Order>(k => k.Id);
+                .HasForeignKey<Order>(b => b.Id);
 
             base.OnModelCreating(builder);
         }
