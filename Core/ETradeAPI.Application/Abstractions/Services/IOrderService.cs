@@ -1,7 +1,9 @@
-﻿namespace ETradeAPI.Application.Abstractions.Services
+﻿using ETradeAPI.Application.DTOs.Order;
+
+namespace ETradeAPI.Application.Abstractions.Services
 {
     public interface IOrderService
     {
-        Task CreateOrder();
+        Task CreateOrderAsync(CreateOrder createOrder);
     }
 }
