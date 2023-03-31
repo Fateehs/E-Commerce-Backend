@@ -1,9 +1,11 @@
-﻿using ETradeAPI.Application.DTOs.Order;
+﻿using ETicaretAPI.Application.DTOs.Order;
+using ETradeAPI.Application.DTOs.Order;
 
 namespace ETradeAPI.Application.Abstractions.Services
 {
     public interface IOrderService
     {
         Task CreateOrderAsync(CreateOrder createOrder);
+        Task<ListOrder> GetAllOrdersAsync(int page, int size);
     }
 }
