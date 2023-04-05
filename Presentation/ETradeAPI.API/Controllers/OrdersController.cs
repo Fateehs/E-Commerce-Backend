@@ -1,5 +1,6 @@
 ﻿using ETradeAPI.Application.Features.Commands.Order.CreateOrder;
 using ETradeAPI.Application.Features.Queries.Order.GetAllOrder;
+using ETradeAPI.Application.Features.Queries.Order.GetOrderById;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -16,6 +17,13 @@ namespace ETradeAPI.API.Controllers
         public OrdersController(IMediator mediator)
         {
             _mediator = mediator;
+        }
+
+        [HttpGet("{Id}")]
+        public async Task<ActionResult> GetOrderById([FromRoute] GetOrderByIdQueryRequest getOrderByIdQueryRequest)
+        {
+            GetOrderByIdQueryResponse response = await _mediator.Send(getOrderByIdQueryRequest);
+            return Ok(response);
         }
 
         [HttpGet]
