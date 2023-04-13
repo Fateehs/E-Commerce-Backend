@@ -1,6 +1,8 @@
-﻿using ETradeAPI.Application.Abstractions.Storage;
+﻿using ETradeAPI.Application.Abstractions.Services;
+using ETradeAPI.Application.Abstractions.Storage;
 using ETradeAPI.Application.Abstractions.Token;
 using ETradeAPI.Infrastructure.Enums;
+using ETradeAPI.Infrastructure.Services;
 using ETradeAPI.Infrastructure.Services.Storage;
 using ETradeAPI.Infrastructure.Services.Storage.Azure;
 using ETradeAPI.Infrastructure.Services.Storage.Local;
@@ -14,6 +16,7 @@ namespace ETradeAPI.Infrastructure
         {
             services.AddScoped<IStorageService, StorageService>();
             services.AddScoped<ITokenHandler,TokenHandler>();
+            services.AddScoped<IMailService, MailService>();
         }
 
         public static void AddStorage<T>(this IServiceCollection serviceCollection) where T : Storage, IStorage
