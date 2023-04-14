@@ -6,7 +6,9 @@ using ETradeAPI.Application.Features.Commands.AppUser.LoginUser;
 using ETradeAPI.Domain.Entities.Identity;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
+using System.Text;
 
 namespace ETradeAPI.Persistence.Services
 {
@@ -16,16 +18,19 @@ namespace ETradeAPI.Persistence.Services
         readonly SignInManager<Domain.Entities.Identity.AppUser> _signInManager;
         readonly ITokenHandler _tokenHandler;
         readonly IUserService _userService;
+        readonly IMailService _mailService;
 
         public AuthService(UserManager<AppUser> userManager,
             SignInManager<AppUser> signInManager,
             ITokenHandler tokenHandler,
-            IUserService userService)
+            IUserService userService,
+            IMailService mailService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _tokenHandler = tokenHandler;
             _userService = userService;
+            _mailService = mailService;
         }
 
         public async Task<Token> LoginAsync(string usernameOrEmail, string password, int accessTokenLifeTime)
@@ -47,6 +52,20 @@ namespace ETradeAPI.Persistence.Services
             }
 
             throw new AuthenticationErrorException();
+        }
+
+        public async Task PasswordResetAsync(string email)
+        {
+            AppUser user = await _userManager.FindByEmailAsync(email);
+            if (user != null)
+            {
+                string resetToken = await _userManager.GeneratePasswordResetTokenAsync(user);
+
+                byte[] tokenBytes = Encoding.UTF8.GetBytes(resetToken);
+                resetToken = WebEncoders.Base64UrlEncode(tokenBytes);
+
+                await _mailService.SendPasswordResetMailAsync(email, user.Id, resetToken);
+            }
         }
 
         public async Task<Token> RefreshTokenLoginAsync(string refreshToken)
