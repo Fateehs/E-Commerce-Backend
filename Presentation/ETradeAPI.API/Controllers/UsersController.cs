@@ -26,13 +26,5 @@ namespace ETradeAPI.API.Controllers
 
             return Ok(response);
         }
-
-        [HttpGet]
-        public async Task<IActionResult> ExampleMailTest()
-        {
-            await _mailService.SendMessageAsync("fatiheselvi@gmail.com", "Test Mail", "<stong> Its just a test mail</strong>");
-
-            return Ok();
-        }
     }
 }
