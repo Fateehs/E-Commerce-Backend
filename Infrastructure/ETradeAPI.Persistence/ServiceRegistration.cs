@@ -10,6 +10,7 @@ using ETradeAPI.Persistence.Repositories.File;
 using ETradeAPI.Persistence.Repositories.InvoiceFile;
 using ETradeAPI.Persistence.Repositories.ProductImageFile;
 using ETradeAPI.Persistence.Services;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -28,7 +29,7 @@ namespace ETradeAPI.Persistence
                 options.Password.RequireLowercase = false;
                 options.Password.RequireUppercase = false;
                 options.User.RequireUniqueEmail = false;
-            }).AddEntityFrameworkStores<ETradeAPIDbContext>();
+            }).AddEntityFrameworkStores<ETradeAPIDbContext>().AddDefaultTokenProviders();
 
             services.AddScoped<ICustomerReadRepository, CustomerReadRepository>();
             services.AddScoped<ICustomerWriteRepository, CustomerWriteRepository>();
