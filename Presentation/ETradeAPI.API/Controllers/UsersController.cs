@@ -1,6 +1,7 @@
 ﻿using ETradeAPI.Application.Abstractions.Services;
 using ETradeAPI.Application.Features.Commands.AppUser.CreateUser;
 using ETradeAPI.Application.Features.Commands.AppUser.LoginUser;
+using ETradeAPI.Application.Features.Commands.AppUser.UpdatePassword;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -25,6 +26,21 @@ namespace ETradeAPI.API.Controllers
             CreateUserCommandResponse response = await _mediator.Send(createUserCommandRequest);
 
             return Ok(response);
+        }
+
+        [HttpPost("update-password")]
+        public async Task<IActionResult> UpdatePassword([FromBody] UpdatePasswordCommandRequest updatePasswordCommandRequest)
+        {
+            UpdatePasswordCommandResponse response = await _mediator.Send(updatePasswordCommandRequest);
+
+            return Ok(response);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ExampleMailTest()
+        {
+            await _mailService.SendMailAsync("fatiheselvi@gmail.com", "Örnek Mail", "<strong>Bu bir örnek maildir.</strong>");
+            return Ok();
         }
     }
 }

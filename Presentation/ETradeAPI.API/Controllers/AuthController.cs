@@ -1,6 +1,8 @@
-﻿using ETradeAPI.Application.Features.Commands.AppUser.LoginUser;
+﻿using ETradeAPI.Application.Abstractions.Services;
+using ETradeAPI.Application.Features.Commands.AppUser.LoginUser;
 using ETradeAPI.Application.Features.Commands.AppUser.PasswordReset;
 using ETradeAPI.Application.Features.Commands.AppUser.RefreshTokenLogin;
+using ETradeAPI.Application.Features.Commands.AppUser.VerifyResetToken;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -13,7 +15,7 @@ namespace ETradeAPI.API.Controllers
     {
         readonly IMediator _mediator;
 
-        public AuthController(IMediator mediator)
+        public AuthController(IMediator mediator, IMailService mailService)
         {
             _mediator = mediator;
         }
@@ -39,7 +41,14 @@ namespace ETradeAPI.API.Controllers
         {
             PasswordResetCommandResponse response = await _mediator.Send(passwordResetCommandRequest);
 
-            return Ok();
+            return Ok(response);
+        }
+
+        [HttpPost("verify-reset-token")]
+        public async Task<IActionResult> VerifyResetTokenAsync([FromBody] VerifyResetTokenCommandRequest verifyResetTokenCommandRequest)
+        {
+            VerifyResetTokenCommandResponse response = await _mediator.Send(verifyResetTokenCommandRequest);
+            return Ok(response);
         }
     }
 }
