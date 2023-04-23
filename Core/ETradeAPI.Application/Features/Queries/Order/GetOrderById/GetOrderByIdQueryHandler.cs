@@ -15,14 +15,15 @@ namespace ETradeAPI.Application.Features.Queries.Order.GetOrderById
         public async Task<GetOrderByIdQueryResponse> Handle(GetOrderByIdQueryRequest request, CancellationToken cancellationToken)
         {
             var data = await _orderService.GetOrderByIdAsync(request.Id);
-            return new() 
+            return new()
             {
                 Id = data.Id,
                 OrderCode = data.OrderCode,
                 Description = data.Description,
                 Address = data.Address,
                 BasketItems = data.BasketItems,
-                CreatedDate = data.CreatedDate
+                CreatedDate = data.CreatedDate,
+                Completed = data.Completed
             };
         }
     }
