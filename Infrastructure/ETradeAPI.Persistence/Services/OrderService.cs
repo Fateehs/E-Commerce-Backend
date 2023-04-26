@@ -3,7 +3,6 @@ using ETradeAPI.Application.Abstractions.Services;
 using ETradeAPI.Application.DTOs.Order;
 using ETradeAPI.Application.Repositories;
 using ETradeAPI.Domain.Entities;
-using ETradeAPI.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace ETradeAPI.Persistence.Services
@@ -26,18 +25,25 @@ namespace ETradeAPI.Persistence.Services
             _completedOrderReadRepository = completedOrderReadRepository;
         }
 
-        public async Task CompleteOrderAsync(string id)
+        public async Task<(bool, CompletedOrderDTO)> CompleteOrderAsync(string id)
         {
-            Order order = await _orderReadRepository.GetByIdAsync(id);
+            Order? order = await _orderReadRepository.Table
+                .Include(o => o.Basket)
+                .ThenInclude(b => b.User)
+                .FirstOrDefaultAsync(o => o.Id == Guid.Parse(id));
 
             if (order != null)
             {
-                await _completedOrderWriteRepository.AddAsync(new()
+                await _completedOrderWriteRepository.AddAsync(new() { OrderId = Guid.Parse(id) });
+                return (await _completedOrderWriteRepository.SaveAsync() > 0, new()
                 {
-                    OrderId = Guid.Parse(id)
+                    OrderCode = order.OrderCode,
+                    OrderDate = order.CreatedDate,
+                    Username = order.Basket.User.UserName,
+                    EMail = order.Basket.User.Email
                 });
-                await _completedOrderWriteRepository.SaveAsync();
             }
+            return (false, null);
         }
 
         public async Task CreateOrderAsync(CreateOrder createOrder)
