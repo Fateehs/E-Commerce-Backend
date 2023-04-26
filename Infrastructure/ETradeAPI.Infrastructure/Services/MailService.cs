@@ -15,6 +15,15 @@ namespace ETradeAPI.Infrastructure.Services
             _configuration = configuration;
         }
 
+        public async Task SendCompletedOrderMailAsync(string to, string orderCode, DateTime orderDate, string userName)
+        {
+            string mail = $"Sayın {userName} Merhaba<br>" +
+                $"{orderDate} tarihinde vermiş olduğunuz {orderCode} kodlu siparişiniz tamamlanmış ve kargo firmasına verilmiştir.<br>İyi günler dileriz...";
+
+            await SendMailAsync(to, $"{orderCode} Sipariş Numaralı Siparişiniz Tamamlandı", mail);
+
+        }
+
         public async Task SendMailAsync(string to, string subject, string body, bool isBodyHtml = true)
         {
             await SendMailAsync(new[] { to }, subject, body, isBodyHtml);
