@@ -1,4 +1,5 @@
-﻿using ETradeAPI.Application.Abstractions.Services;
+﻿using ETicaretAPI.Persistence.Services;
+using ETradeAPI.Application.Abstractions.Services;
 using ETradeAPI.Application.Abstractions.Services.Authentications;
 using ETradeAPI.Application.Repositories;
 using ETradeAPI.Application.Repositories.BasketItem;
@@ -56,6 +57,7 @@ namespace ETradeAPI.Persistence
             services.AddScoped<IInternalAuthentication, AuthService>();
             services.AddScoped<IBasketService, BasketService>();
             services.AddScoped<IOrderService, OrderService>();
+            services.AddScoped<IRoleService, RoleService>();
         }
     }
 }
