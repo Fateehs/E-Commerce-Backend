@@ -1,12 +1,25 @@
-﻿using MediatR;
+﻿using ETradeAPI.Application.Abstractions.Services;
+using MediatR;
 
 namespace ETradeAPI.Application.Features.Queries.Role.GetRoles
 {
     public class GetRolesQueryHandler : IRequestHandler<GetRolesQueryRequest, GetRolesQueryResponse>
     {
-        public Task<GetRolesQueryResponse> Handle(GetRolesQueryRequest request, CancellationToken cancellationToken)
+        readonly IRoleService _roleService;
+
+        public GetRolesQueryHandler(IRoleService roleService)
         {
-            throw new NotImplementedException();
+            _roleService = roleService;
+        }
+
+        public async Task<GetRolesQueryResponse> Handle(GetRolesQueryRequest request, CancellationToken cancellationToken)
+        {
+            var (datas, count) = _roleService.GetAllRoles(request.Page, request.Size);
+            return new()
+            {
+                Datas = datas,
+                TotalCount = count
+            };
         }
     }
 }

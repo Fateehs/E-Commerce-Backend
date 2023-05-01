@@ -2,5 +2,6 @@
 {
     public class DeleteRoleCommandResponse
     {
+        public bool Succeeded { get; set; }
     }
 }
