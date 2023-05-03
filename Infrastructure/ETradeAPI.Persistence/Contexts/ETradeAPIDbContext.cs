@@ -1,4 +1,5 @@
-﻿using ETradeAPI.Domain.Entities;
+﻿using ETicaretAPI.Domain.Entities;
+using ETradeAPI.Domain.Entities;
 using ETradeAPI.Domain.Entities.Common;
 using ETradeAPI.Domain.Entities.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -19,6 +20,8 @@ namespace ETradeAPI.Persistence.Contexts
         public DbSet<Basket> Baskets { get; set; }
         public DbSet<BasketItem> BasketItems { get; set; }
         public DbSet<CompletedOrder> CompletedOrders { get; set; }
+        public DbSet<Menu> Menus { get; set; }
+        public DbSet<Endpoint> Endpoints { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
