@@ -1,4 +1,7 @@
-﻿using ETicaretAPI.Persistence.Services;
+﻿using ETicaretAPI.Application.Abstractions.Services;
+using ETicaretAPI.Application.Repositories;
+using ETicaretAPI.Persistence.Repositories;
+using ETicaretAPI.Persistence.Services;
 using ETradeAPI.Application.Abstractions.Services;
 using ETradeAPI.Application.Abstractions.Services.Authentications;
 using ETradeAPI.Application.Repositories;
@@ -50,6 +53,10 @@ namespace ETradeAPI.Persistence
             services.AddScoped<IBasketWriteRepository, BasketWriteRepository>();
             services.AddScoped<ICompletedOrderReadRepository, CompletedOrderReadRepository>();
             services.AddScoped<ICompletedOrderWriteRepository, CompletedOrderWriteRepository>();
+            services.AddScoped<IEndpointReadRepository, EndpointReadRepository>();
+            services.AddScoped<IEndpointWriteRepository, EndpointWriteRepository>();
+            services.AddScoped<IMenuReadRepository, MenuReadRepository>();
+            services.AddScoped<IMenuWriteRepository, MenuWriteRepository>();
 
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IAuthService, AuthService>();
@@ -58,6 +65,7 @@ namespace ETradeAPI.Persistence
             services.AddScoped<IBasketService, BasketService>();
             services.AddScoped<IOrderService, OrderService>();
             services.AddScoped<IRoleService, RoleService>();
+            services.AddScoped<IAuthorizationEndpointService, AuthorizationEndpointService>();
         }
     }
 }
