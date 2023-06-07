@@ -1,4 +1,5 @@
-﻿using ETradeAPI.Application.Consts;
+﻿using ETradeAPI.Application.Abstractions.Services;
+using ETradeAPI.Application.Consts;
 using ETradeAPI.Application.CustomAttributes;
 using ETradeAPI.Application.Enums;
 using ETradeAPI.Application.Features.Commands.Product.CreateProduct;
@@ -23,10 +24,14 @@ namespace ETradeAPI.API.Controllers
     public class ProductsController : ControllerBase
     {
         readonly IMediator _mediator;
+        readonly ILogger<ProductsController> logger;
+        readonly IProductService _productService;
 
-        public ProductsController(IMediator mediator)
+        public ProductsController(IMediator mediator, IProductService productService, ILogger<ProductsController> logger)
         {
             _mediator = mediator;
+            _productService = productService;
+            this.logger = logger;
         }
 
         [HttpGet]
@@ -35,6 +40,14 @@ namespace ETradeAPI.API.Controllers
             GetAllProductQueryResponse response = await _mediator.Send(getAllProductQueryRequest);
 
             return Ok(response);
+        }
+
+        [HttpGet("qrcode/{productId}")]
+        public async Task<IActionResult> GetQrCodeToProduct([FromRoute] string productId)
+        {
+            var data = await _productService.QrCodeToProductAsync(productId);
+
+            return File(data, "image/png");
         }
 
         [HttpGet("{Id}")]

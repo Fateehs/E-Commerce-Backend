@@ -1,19 +1,24 @@
 ﻿using ETradeAPI.Application.Abstractions.Services;
+using ETradeAPI.Application.CustomAttributes;
+using ETradeAPI.Application.Enums;
+using ETradeAPI.Application.Features.Commands.AppUser.AssignRoleToUser;
 using ETradeAPI.Application.Features.Commands.AppUser.CreateUser;
 using ETradeAPI.Application.Features.Commands.AppUser.LoginUser;
 using ETradeAPI.Application.Features.Commands.AppUser.UpdatePassword;
+using ETradeAPI.Application.Features.Queries.AppUser.GetAllUsers;
+using ETradeAPI.Application.Features.Queries.AppUser.GetRolesToUser;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ETradeAPI.API.Controllers
+namespace ETicaretAPI.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UsersController : Controller
+    public class UsersController : ControllerBase
     {
         readonly IMediator _mediator;
         readonly IMailService _mailService;
-
         public UsersController(IMediator mediator, IMailService mailService)
         {
             _mediator = mediator;
@@ -21,7 +26,7 @@ namespace ETradeAPI.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(CreateUserCommandRequest createUserCommandRequest)
+        public async Task<IActionResult> CreateUser(CreateUserCommandRequest createUserCommandRequest)
         {
             CreateUserCommandResponse response = await _mediator.Send(createUserCommandRequest);
 
@@ -37,10 +42,33 @@ namespace ETradeAPI.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> ExampleMailTest()
+        [Authorize(AuthenticationSchemes = "Admin")]
+        [AuthorizeDefinition(ActionType = ActionType.Reading, Definition = "Get All Users", Menu = "Users")]
+        public async Task<IActionResult> GetAllUsers([FromQuery] GetAllUsersQueryRequest getAllUsersQueryRequest)
         {
-            await _mailService.SendMailAsync("fatiheselvi@gmail.com", "Örnek Mail", "<strong>Bu bir örnek maildir.</strong>");
-            return Ok();
+            GetAllUsersQueryResponse response = await _mediator.Send(getAllUsersQueryRequest);
+
+            return Ok(response);
+        }
+
+        [HttpGet("get-roles-to-user/{UserId}")]
+        [Authorize(AuthenticationSchemes = "Admin")]
+        [AuthorizeDefinition(ActionType = ActionType.Reading, Definition = "Get Roles To Users", Menu = "Users")]
+        public async Task<IActionResult> GetRolesToUser([FromRoute] GetRolesToUserQueryRequest getRolesToUserQueryRequest)
+        {
+            GetRolesToUserQueryResponse response = await _mediator.Send(getRolesToUserQueryRequest);
+
+            return Ok(response);
+        }
+
+        [HttpPost("assign-role-to-user")]
+        [Authorize(AuthenticationSchemes = "Admin")]
+        [AuthorizeDefinition(ActionType = ActionType.Reading, Definition = "Assign Role To User", Menu = "Users")]
+        public async Task<IActionResult> AssignRoleToUser(AssignRoleToUserCommandRequest assignRoleToUserCommandRequest)
+        {
+            AssignRoleToUserCommandResponse response = await _mediator.Send(assignRoleToUserCommandRequest);
+
+            return Ok(response);
         }
     }
 }
